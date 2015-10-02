@@ -19,7 +19,14 @@ app.use('/api/v1', httpProxy('http://10.0.3.70', {
 
     callback(null, JSON.stringify(data));
   },
-  port: 3000
+  port: 3000,
+  // TODO: add decorateRequest
+  decorateRequest: function(req) {
+       req.headers['Content-Type'] = '';
+       req.method = 'GET';
+       req.bodyContent = wrap(req.bodyContent);
+       return req;
+  }
 }));
 
 app.get('/hola', function (req, res) {
